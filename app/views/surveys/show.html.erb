@@ -1,0 +1,157 @@
+<div class="mx-auto lg:w-3/4 max-w-screen-xl px-4 py-16 sm:px-0 xs:px-0 lg:px-8">
+  <div class="mx-auto sm:mx-0 sm:px-0 max-w-screen-xl">
+    <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
+      Thanks, <%= @survey.name_input %>. Here are your results :)
+    </h1>
+
+    <p class="mx-auto mt-4 max-w-md text-center text-gray-500">
+      These results are an estimation of the best dog breed for you.
+    </p>
+    <div class="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
+      <h1 class="text-2xl font-bold text-gray-600 sm:text-4xl mb-5">
+        Your top match
+      </h1>
+      <div class="display-dog flex justify-center">
+        <div class="bg-gray-500" style="width:300px;height:300px;"></div>
+      </div>
+      <h2 class="text-center font-bold text-gray-600 sm:text-2xl">
+        <%= @breed_result.name %>
+      </h2>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Description</h5>
+        <p class="my-4 text-gray-600"><%= @breed_result.description %></p>
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Average Weight</h5>
+        <p class="my-4 max-w-md text-gray-600"><%= @breed_result.avg_weight %> lbs</p>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Family Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.family_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Children Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.children_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Other Dog Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.other_dog_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Shedding Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.shedding_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Grooming Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.shedding_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Drooling Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.drooling_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Stranger Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.stranger_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Playfulness Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.playfulness_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Protective Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.protective_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Adaptability Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.adaptability_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Trainability Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.trainability_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Energy Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.energy_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Barking Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.barking_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="breed-values">
+        <h5 class="font-bold text-gray-600 sm:text-2xl">Mental Stimulation Score</h5>
+        <div class="star-values flex my-4">
+          <% (1..5).each do |i| %>
+            <%= display_stars(@breed_result.mental_stim_score, i) %>
+          <% end %>
+        </div>
+      </div>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">min weight: <%= @breed_result.min_weight %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">max weight <%= @breed_result.max_weight %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">family_score <%= @breed_result.family_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">children score <%= @breed_result.children_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">other dog score <%= @breed_result.other_dog_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">shedding score <%= @breed_result.shedding_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">grooming score <%= @breed_result.grooming_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">drooling score <%= @breed_result.drooling_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">stranger score <%= @breed_result.stranger_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">playfulness score <%= @breed_result.playfulness_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">protective score <%= @breed_result.protective_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">adaptability score <%= @breed_result.adaptability_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">trainability score <%= @breed_result.trainability_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">energy score <%= @breed_result.energy_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">barking score <%= @breed_result.barking_score %></p>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">mental stim score <%= @breed_result.mental_stim_score %></p>
+
+    </div>
+  </div>
+</div>
