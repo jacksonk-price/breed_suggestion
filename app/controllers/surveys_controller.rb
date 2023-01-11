@@ -5,8 +5,10 @@ class SurveysController < ApplicationController
   def show
     result = @survey.result
     @first_breed = Dog.find result.first_breed_id
-    @second_breed = Dog.find result.second_breed_id
-    @third_breed = Dog.find result.third_breed_id
+    Rails.logger.info @first_breed.to_s
+    Rails.logger.info '-' * 15
+    @second_breed = Dog.find result.second_breed_id unless result.second_breed_id.nil?
+    @third_breed = Dog.find result.third_breed_id unless result.third_breed_id.nil?
   end
 
   # GET /surveys/new
