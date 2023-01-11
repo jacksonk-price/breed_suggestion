@@ -1,0 +1,124 @@
+<div class="display-dog flex justify-center">
+  <div class="bg-gray-500" style="width:300px;height:300px;"></div>
+</div>
+<h2 class="text-center font-bold text-gray-600 sm:text-2xl">
+  <%= breed.name %>
+</h2>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Description</h5>
+  <p class="my-4 text-gray-600"><%= breed.description %></p>
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Average Weight</h5>
+  <p class="my-4 max-w-md text-gray-600"><%= breed.avg_weight %> lbs</p>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Family Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.family_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Children Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.children_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Other Dog Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.other_dog_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Shedding Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.shedding_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Grooming Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.shedding_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Drooling Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.drooling_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Stranger Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.stranger_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Playfulness Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.playfulness_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Protective Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.protective_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Adaptability Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.adaptability_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Trainability Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.trainability_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Energy Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.energy_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Barking Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.barking_score, i) %>
+    <% end %>
+  </div>
+</div>
+<div class="breed-values">
+  <h5 class="font-bold text-gray-600 sm:text-2xl">Mental Stimulation Score</h5>
+  <div class="star-values flex my-4">
+    <% (1..5).each do |i| %>
+      <%= display_stars(breed.mental_stim_score, i) %>
+    <% end %>
+  </div>
+</div>
