@@ -1,0 +1,41 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  min_weight: 1
+  max_weight: 1
+  family_score: 1
+  children_score: 1
+  other_dog_score: 1
+  shedding_score: 1
+  grooming_score: 1
+  drooling_score: 1
+  stranger_score: 1
+  playfulness_score: 1
+  protective_score: 1
+  adaptability_score: 1
+  trainability_score: 1
+  energy_score: 1
+  barking_score: 1
+  mental_stim_score: 1
+
+two:
+  name: MyString
+  description: MyText
+  min_weight: 1
+  max_weight: 1
+  family_score: 1
+  children_score: 1
+  other_dog_score: 1
+  shedding_score: 1
+  grooming_score: 1
+  drooling_score: 1
+  stranger_score: 1
+  playfulness_score: 1
+  protective_score: 1
+  adaptability_score: 1
+  trainability_score: 1
+  energy_score: 1
+  barking_score: 1
+  mental_stim_score: 1
