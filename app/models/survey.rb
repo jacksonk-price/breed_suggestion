@@ -6,6 +6,7 @@ class Survey < ApplicationRecord
 
   def create_result
     query = size_query + family_query + children_query + other_dog_query + shedding_query + grooming_query + drooling_query + stranger_query + playfulness_query + protective_query + adaptability_query + trainability_query + barking_query + energy_query + mental_stim_query
+    Rails.logger.info query.to_s
     returned_breeds = Dog.where(query)
     Rails.logger.info '-' * 15
     Rails.logger.info returned_breeds.count.to_s
@@ -39,7 +40,7 @@ class Survey < ApplicationRecord
     # Will your dog be around family members?
     case family_input
     when 'yes'
-      family_query = 'AND family_score > 3 '
+      family_query = 'AND family_score > 2 '
     when 'sometimes'
       family_query = 'AND family_score > 2 '
     when 'no'
@@ -54,7 +55,7 @@ class Survey < ApplicationRecord
     # Do you expect your dog to be around children?
     case children_input
     when 'yes', 'sometimes'
-      children_query = 'AND children_score > 3 '
+      children_query = 'AND children_score > 2 '
     when 'sometimes'
       children_query = 'AND children_score > 2 '
     when 'no'
@@ -69,7 +70,7 @@ class Survey < ApplicationRecord
     # Do you expect your dog to be around other dogs (such as daycare or in your household)?
     case other_dog_input
     when 'yes', 'sometimes'
-      other_dog_query = 'AND other_dog_score > 3 '
+      other_dog_query = 'AND other_dog_score > 2 '
     when 'no'
       other_dog_query = 'AND other_dog_score > 0 AND other_dog_score < 6 '
     else
