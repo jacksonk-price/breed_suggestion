@@ -13,7 +13,7 @@ class Survey < ApplicationRecord
     first_breed = breeds.first
     second_breed = breeds[1]
     third_breed = breeds[2]
-    Result.create!(first_breed_id: first_breed.id, second_breed_id: second_breed.id, third_breed_id: third_breed.id, survey_id: id)
+    Result.create!(first_breed_id: first_breed.id, second_breed_id: nil, third_breed_id: nil, survey_id: id)
   end
 
   private
