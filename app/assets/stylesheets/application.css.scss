@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+
+html{
+    height: auto;
+}
+
+body{
+    height: auto;
+}
+
+.bg-dog{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), image-url("dog_collage.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
