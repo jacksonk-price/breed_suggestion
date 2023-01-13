@@ -4,11 +4,9 @@ class SurveysController < ApplicationController
   # GET /surveys/1 or /surveys/1.json
   def show
     result = @survey.result
-    @first_breed = Dog.find result.first_breed_id
+    @first_breed = Dog.find result.breed_id
     Rails.logger.info @first_breed.to_s
     Rails.logger.info '-' * 15
-    @second_breed = Dog.find result.second_breed_id unless result.second_breed_id.nil?
-    @third_breed = Dog.find result.third_breed_id unless result.third_breed_id.nil?
   end
 
   # GET /surveys/new
@@ -19,9 +17,13 @@ class SurveysController < ApplicationController
   # POST /surveys or /surveys.json
   def create
     @survey = Survey.new(survey_params)
-
+    @survey.id = Survey.generate_uuid
+    Rails.logger.info @survey.attributes.to_s
+    Rails.logger.info '#' * 15
+    params.inspect
     if @survey.save!
-      redirect_to survey_path(@survey)
+      Rails.logger.info "SURVEY SHOULD BE SAVED"
+      redirect_to survey_path(@survey.id)
     else
       flash[:error] = "something went wrong saving the survey. woops"
     end
@@ -41,6 +43,6 @@ class SurveysController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def survey_params
-      params.require(:survey).permit(:name_input, :size_input, :family_input, :children_input, :other_dog_input, :shedding_input, :grooming_input, :drooling_input, :stranger_input, :playfulness_input, :protective_input, :adaptability_input, :trainability_input, :energy_input, :barking_input, :mental_stim_input)
+      params.require(:survey).permit(:id, :name_input, :size_input, :family_input, :children_input, :other_dog_input, :shedding_input, :grooming_input, :drooling_input, :stranger_input, :playfulness_input, :protective_input, :adaptability_input, :trainability_input, :energy_input, :barking_input, :mental_stim_input)
     end
 end
