@@ -1,8 +1,9 @@
 class Dog < ApplicationRecord
+  require 'csv'
   scope :small, -> { where("max_weight < 22") }
   scope :medium, -> { where('min_weight > 22 AND max_weight < 55') }
-  scope :large, -> { where('min_weight > 55 AND max_weight < 85')}
-  scope :xl, -> { where('max_weight > 85')}
+  scope :large, -> { where('min_weight > 55 AND max_weight < 115')}
+  scope :xl, -> { where('max_weight > 115')}
 
   def self.filter(survey)
     breeds = filter_size(survey.size_input)
@@ -54,15 +55,18 @@ class Dog < ApplicationRecord
   end
 
   def self.filter_size(size_input)
-    # What size dog do you prefer?
-    case size_input.to_s
+    case size_input
     when 'small'
+      Rails.logger.info "small case"
       small
     when 'medium'
+      Rails.logger.info "medium case"
       medium
     when 'large'
+      Rails.logger.info "large case"
       large
     when 'xl'
+      Rails.logger.info "xl case"
       xl
     else
       Rails.logger.info "error in size case"
@@ -70,8 +74,7 @@ class Dog < ApplicationRecord
   end
 
   def self.filter_family(family_input)
-    # Will your dog be around family members?
-    case family_input.to_s
+    case family_input
     when 'yes'
       where('family_score > 3')
     when 'sometimes'
@@ -236,5 +239,13 @@ class Dog < ApplicationRecord
 
   def avg_weight
     ((min_weight + max_weight) / 2).round
+  end
+
+  def self.import_csv
+    csv_text = File.read('public/dog-data-cleaned.csv')
+    csv = CSV.parse(csv_text, :headers => true)
+    csv.each do |row|
+      Dog.create!(row.to_hash)
+    end
   end
 end
