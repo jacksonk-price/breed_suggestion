@@ -1,14 +1,20 @@
 class Dog < ApplicationRecord
   require 'csv'
+  scope :any_size, -> { where('min_weight > 0 AND max_weight < 250') }
   scope :small, -> { where("max_weight < 22") }
   scope :medium, -> { where('min_weight > 22 AND max_weight < 55') }
-  scope :large, -> { where('min_weight > 55 AND max_weight < 115')}
-  scope :xl, -> { where('max_weight > 115')}
+  scope :large, -> { where('min_weight > 55 AND max_weight < 115') }
+  scope :xl, -> { where('max_weight > 115') }
+  scope :new_owner, -> { where('trainability_score > 1') }
+  scope :previous_owner, -> { where('trainability_score > 0 AND trainability_score < 6') }
 
   def self.filter(survey)
     breeds = filter_size(survey.size_input)
     Rails.logger.info breeds.count
     Rails.logger.info 'First filter fired ---------'
+    breeds = breeds.filter_new_owner(survey.new_owner_input)
+    Rails.logger.info breeds.count
+    Rails.logger.info 'new owner filter fired ---------'
     breeds = breeds.filter_family(survey.family_input)
     Rails.logger.info breeds.count
     Rails.logger.info 'Second filter fired ---------'
@@ -56,6 +62,8 @@ class Dog < ApplicationRecord
 
   def self.filter_size(size_input)
     case size_input
+    when 'any'
+      any_size
     when 'small'
       Rails.logger.info "small case"
       small
@@ -70,6 +78,17 @@ class Dog < ApplicationRecord
       xl
     else
       Rails.logger.info "error in size case"
+    end
+  end
+
+  def self.filter_new_owner(new_owner_input)
+    case new_owner_input
+    when 'yes'
+      new_owner
+    when 'no'
+      previous_owner
+    else
+      Rails.logger.info 'error in family case'
     end
   end
 

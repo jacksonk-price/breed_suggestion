@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023011303061012) do
     t.string "mental_stim_input"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "new_owner_input"
   end
 
   add_foreign_key "results", "surveys"
