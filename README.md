@@ -1,24 +1,8 @@
-# README
+# breed_suggestion
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A web app that suggests a dog breed based off of a short survey. All dog breed information was collected from the [American Kennel Club](https://www.akc.org/).
 
-Things you may want to cover:
+## To Do
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+ * Add images for survey results view
+ * Add top 3 breed functionality for survey results view
