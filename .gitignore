@@ -34,4 +34,4 @@
 !/app/assets/builds/.keep
 
 # Ignore database config
-/config/database.yml
+/app/config/database.yml
