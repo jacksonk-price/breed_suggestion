@@ -5,7 +5,7 @@
     </h1>
 
     <p class="mx-auto mt-4 max-w-md text-center text-gray-500">
-      These 15 questions are designed to give you an estimate of which dog breed is best fit for you.
+      These <%= @questions.count %> questions are designed to give you an estimate of which dog breed is best fit for you.
     </p>
     <div class="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
       <%= form_for @survey do |s| %>
@@ -13,198 +13,23 @@
           <p class="text-lg font-medium mb-2">Let's begin with your name.</p>
           <%= s.text_field :name_input, class: 'w-full rounded-lg border-gray-200 p-4 pr-12 mb-4 text-sm shadow', placeholder: 'Enter your name' %>
         </div>
-        <div class="relative mt-1 mb-4">
-          <p class="text-lg font-medium pb-2">1. What size dog do you prefer?</p>
-          <p class="text-sm pb-2 text-gray-500">Small ( less than 22lbs ) </p>
-          <p class="text-sm pb-2 text-gray-500">Medium ( 22lbs - 55lbs ) </p>
-          <p class="text-sm pb-2 text-gray-500">Large ( 55lbs - 115lbs ) </p>
-          <p class="text-sm pb-4 text-gray-500">Extra large ( greater than 115lbs ) </p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :size_input, 'any', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :size_input, 'Any', value: 'Any', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :size_input, 'small', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :size_input, 'Small', value: 'small', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :size_input, 'medium', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :size_input, 'Medium', value: 'medium', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :size_input, 'large', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :size_input, 'Large', value: 'large', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :size_input, 'xl', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :size_input, 'Extra large', value: 'xl', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
+          <% @questions.each_with_index do | question, index| %>
+            <div class="relative mt-1 mb-4">
+              <p class="text-lg font-medium pb-2"><%= index + 1 %>. <%= question.content %></p>
+              <p class="text-sm pb-4 text-gray-500"><%= question.description %></p>
+              <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
+                <% question.answer_choices.each do |answer_choice| %>
+                  <% Rails.logger.info @input_attributes[index] %>
+                    <%= s.radio_button @input_attributes[index], answer_choice.content, class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
+                    <%= s.label @input_attributes[index], answer_choice.content.capitalize, value: answer_choice.content, class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <div class="options flex justify-end">
+          <%= s.submit 'Submit', class: 'bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer' %>
         </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-2">2. Are you a new dog owner?</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :new_owner_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :new_owner_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :new_owner_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :new_owner_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-2">3. Will your dog be around family members?</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :family_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :family_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :family_input, 'sometimes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :family_input, 'Sometimes', value: 'sometimes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :family_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :family_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-2">4. Do you expect your dog to be around children?</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :children_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :children_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :children_input, 'sometimes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :children_input, 'Sometimes', value: 'sometimes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :children_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :children_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-2">5. Do you expect your dog to be around other dogs (such as daycare or in your household)?</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :other_dog_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :other_dog_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :other_dog_input, 'sometimes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :other_dog_input, 'Sometimes', value: 'sometimes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :other_dog_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :other_dog_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-2">6. Would a dog that sheds a lot bother you?</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :shedding_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :shedding_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :shedding_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :shedding_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :shedding_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :shedding_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-1">7. Would a dog that requires a lot of grooming bother you?</p>
-          <p class="text-sm pb-2 text-gray-500">Some breeds require daily brushing, trimming, and even bathing. </p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :grooming_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :grooming_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :grooming_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :grooming_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :grooming_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :grooming_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-2">8. Would a dog that drools a lot bother you?</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :drooling_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :drooling_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :drooling_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :drooling_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :drooling_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :drooling_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-2">9. Do you expect your dog to encounter strangers often?</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :stranger_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :stranger_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :stranger_input, 'sometimes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :stranger_input, 'Sometimes', value: 'sometimes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :stranger_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :stranger_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-1">10. Do you prefer a dog that is very playful?</p>
-          <p class="text-sm pb-2 text-gray-500">Some breeds have a very playful temperament whereas others are often seen as more serious or "working" dogs.</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :playfulness_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :playfulness_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :playfulness_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :playfulness_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :playfulness_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :playfulness_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-2">11. Do you prefer a dog that is protective of you?</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :protective_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :protective_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :protective_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :protective_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :protective_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :protective_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-1">12. Will your dog be traveling with you often?</p>
-          <p class="text-sm pb-2 text-gray-500">Some breeds are better at adapting to new environments whereas others prefer minimal change.</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :adaptability_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :adaptability_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :adaptability_input, 'sometimes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :adaptability_input, 'Sometimes', value: 'sometimes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :adaptability_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :adaptability_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-1">13. Is training your dog important to you?</p>
-          <p class="text-sm pb-2 text-gray-500">Some breeds aim to please their owner and are quick to learn whereas others prefer to be independent and learn on their own time.</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :trainability_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :trainability_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :trainability_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :trainability_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :trainability_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :trainability_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-1">14. Would a dog who barks a lot bother you?</p>
-          <p class="text-sm pb-2 text-gray-500">Some breeds bark at anything that moves whereas some are very quiet.</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :barking_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :barking_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :barking_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :barking_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :barking_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :barking_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-1">15. Do you prefer a dog who has high energy?</p>
-          <p class="text-sm pb-2 text-gray-500">High energy breeds are great for someone who has an active lifestyle.</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :energy_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :energy_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :energy_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :energy_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :energy_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :energy_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <div class="relative mt-1 mb-5">
-          <p class="text-lg font-medium pb-1">16. Do you prefer a dog who requires a lot of mental stimulation?</p>
-          <p class="text-sm pb-2 text-gray-500">High mental stimulation breeds make great working dogs such as herding, hunting, and sporting.</p>
-          <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
-            <%= s.radio_button :mental_stim_input, 'yes', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :mental_stim_input, 'Yes', value: 'yes', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :mental_stim_input, 'neutral', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :mental_stim_input, 'Don\'t care', value: 'neutral', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-            <%= s.radio_button :mental_stim_input, 'no', class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
-            <%= s.label :mental_stim_input, 'No', value: 'no', class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
-          </div>
-        </div>
-        <%= s.submit 'Submit', class: 'bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded' %>
       <% end %>
     </div>
   </div>
 </div>
-
