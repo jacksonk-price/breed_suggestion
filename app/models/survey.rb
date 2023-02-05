@@ -1,15 +1,16 @@
 class Survey < ApplicationRecord
-  # validates :name_input, :size_input, :family_input, :children_input, :other_dog_input, :shedding_input, :grooming_input, :drooling_input, :stranger_input, :playfulness_input, :protective_input, :adaptability_input, :trainability_input, :energy_input, :barking_input, :mental_stim_input, presence: true
+  validates :name_input, :size_input, :family_input, :children_input, :other_dog_input, :shedding_input, :grooming_input, :drooling_input, :stranger_input, :playfulness_input, :protective_input, :adaptability_input, :trainability_input, :energy_input, :barking_input, :mental_stim_input, presence: true
   has_one :result
   after_create :create_result
   after_destroy :destroy_associations
 
   def create_result
     breeds = Dog.filter(self)
-    breeds.each do |b|
-      Rails.logger.info b.name.to_s
-    end
     Result.create!(breed_id: breeds.sample.id, survey_id: id)
+  end
+
+  def input_attributes
+    attributes.map{ |name, value| name }.reject { |name| %w[id name_input created_at updated_at].include?(name) }
   end
 
   private
