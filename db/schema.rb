@@ -11,6 +11,12 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023011303061012) do
+  create_table "answer_choices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "dogs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -32,6 +38,22 @@ ActiveRecord::Schema[7.0].define(version: 2023011303061012) do
     t.integer "mental_stim_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "question_answer_choices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.bigint "answer_choice_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_choice_id"], name: "index_question_answer_choices_on_answer_choice_id"
+    t.index ["question_id"], name: "index_question_answer_choices_on_question_id"
+  end
+
+  create_table "questions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
   end
 
   create_table "results", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -61,8 +83,9 @@ ActiveRecord::Schema[7.0].define(version: 2023011303061012) do
     t.string "mental_stim_input"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "new_owner_input"
   end
 
+  add_foreign_key "question_answer_choices", "answer_choices"
+  add_foreign_key "question_answer_choices", "questions"
   add_foreign_key "results", "surveys"
 end

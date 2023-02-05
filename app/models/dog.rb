@@ -1,5 +1,6 @@
 class Dog < ApplicationRecord
   require 'csv'
+  require 'open-uri'
   scope :any_size, -> { where('min_weight > 0 AND max_weight < 250') }
   scope :small, -> { where("max_weight < 22") }
   scope :medium, -> { where('min_weight > 22 AND max_weight < 55') }
@@ -10,54 +11,27 @@ class Dog < ApplicationRecord
 
   def self.filter(survey)
     breeds = filter_size(survey.size_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'First filter fired ---------'
-    breeds = breeds.filter_new_owner(survey.new_owner_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'new owner filter fired ---------'
     breeds = breeds.filter_family(survey.family_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Second filter fired ---------'
     breeds = breeds.filter_children(survey.children_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Third filter fired ---------'
     breeds = breeds.filter_other_dog(survey.other_dog_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Fourth filter fired ---------'
     breeds = breeds.filter_shedding(survey.shedding_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Fifth filter fired ---------'
     breeds = breeds.filter_grooming(survey.grooming_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Sixth filter fired ---------'
     breeds = breeds.filter_drooling(survey.drooling_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Seventh filter fired ---------'
     breeds = breeds.filter_stranger(survey.stranger_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Eighth filter fired ---------'
     breeds = breeds.filter_playfulness(survey.playfulness_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Ninth filter fired ---------'
     breeds = breeds.filter_protectiveness(survey.protective_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Tenth filter fired ---------'
     breeds = breeds.filter_adaptability(survey.adaptability_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Eleventh filter fired ---------'
     breeds = breeds.filter_trainability(survey.trainability_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Twelfth filter fired ---------'
     breeds = breeds.filter_barking(survey.barking_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Thirteenth filter fired ---------'
     breeds = breeds.filter_energy(survey.energy_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Fourteenth filter fired ---------'
     breeds = breeds.filter_mental_stim(survey.mental_stim_input)
-    Rails.logger.info breeds.count
-    Rails.logger.info 'Fifteenth filter fired ---------'
     breeds
+  end
+
+  def image
+    formatted_name = format_name
+    json = JSON.load(URI.open("https://dog.ceo/api/breed/#{formatted_name}/images/random"))
+    json["message"]
   end
 
   def self.filter_size(size_input)
@@ -78,17 +52,6 @@ class Dog < ApplicationRecord
       xl
     else
       Rails.logger.info "error in size case"
-    end
-  end
-
-  def self.filter_new_owner(new_owner_input)
-    case new_owner_input
-    when 'yes'
-      new_owner
-    when 'no'
-      previous_owner
-    else
-      Rails.logger.info 'error in family case'
     end
   end
 
@@ -266,5 +229,9 @@ class Dog < ApplicationRecord
     csv.each do |row|
       Dog.create!(row.to_hash)
     end
+  end
+  private
+  def format_name
+    name.unicode_normalize(:nfkd).encode('ASCII', replace: '').downcase.gsub(' ','-')
   end
 end
