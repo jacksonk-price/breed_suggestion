@@ -3,10 +3,14 @@
     <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
       Let's get started
     </h1>
-
     <p class="mx-auto mt-4 max-w-md text-center text-gray-500">
       These <%= @questions.count %> questions are designed to give you an estimate of which dog breed is best fit for you.
     </p>
+    <% if @survey.errors.any? %>
+      <div id="notice-wrapper">
+        <p>All fields are required. Please double check that you have answered every question.</p>
+      </div>
+    <%end%>
     <div class="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
       <%= form_for @survey do |s| %>
         <div class="relative mt-1">
@@ -19,7 +23,6 @@
               <p class="text-sm pb-4 text-gray-500"><%= question.description %></p>
               <div class="flex items-center rounded-lg border-gray-200 p-4 text-sm shadow">
                 <% question.answer_choices.each do |answer_choice| %>
-                  <% Rails.logger.info @input_attributes[index] %>
                     <%= s.radio_button @input_attributes[index], answer_choice.content, class: 'w-4 h-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain' %>
                     <%= s.label @input_attributes[index], answer_choice.content.capitalize, value: answer_choice.content, class: 'w-full py-4 ml-2 text-sm font-medium text-gray-900' %>
                 <% end %>

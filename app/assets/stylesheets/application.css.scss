@@ -41,3 +41,17 @@ body{
     min-height: 300px;
     max-height: 300px;
 }
+
+#notice-wrapper{
+    background-color: red;
+    border-radius: 5px;
+    margin: 25px 25px;
+}
+
+#notice-wrapper p{
+    padding: 0.5rem 0;
+    text-align: center;
+    margin: 0;
+    font-size: 18px;
+    color: #fff;
+}
